@@ -1,0 +1,16 @@
+server {
+         listen   {{ nginx_listen_port }};
+
+         root {{ nginx_document_root }};
+         index {{ nginx_index_files }};
+         server_name {{ nginx_server_name }};
+
+         location / {
+                  try_files $uri $uri/ /index.php?q=$uri&$args;
+         }
+         location ~ \.php {
+         include snippets/fastcqi-php.conf;
+         fastcgi_pass unix:/{{ nginx_php_fpm_sock_path }};
+         include fastcgi_params;
+         }
+}

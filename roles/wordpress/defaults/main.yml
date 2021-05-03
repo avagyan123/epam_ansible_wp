@@ -1,0 +1,17 @@
+---
+# defaults file for wordpress
+
+
+wordpress_nginx_handler_name: 'Restart nginx service'
+wordpress_user: 'www-data'
+wordpress_group: 'www-data'
+
+
+
+#DB
+wordpress_mysql_db_name: 'wordpress'
+wordpress_mysql_db_user: 'wordpress'
+wordpress_mysql_db_password: 'secret'
+wordpress_mysql_db_host: 'localhost'
+wordpress_mysql_login_user: 'root'
+wordpress_mysql_login_password: ''

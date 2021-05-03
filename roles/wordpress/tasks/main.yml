@@ -1,0 +1,35 @@
+---
+# tasks file for wordpress
+
+- name: 'Install required packages'
+  apt:
+    name: 'unzip'
+    state: 'present'
+    update_cache: true
+  become: true
+
+- name: 'Download and extract Wordpress files'
+  unarchive:
+    src: 'https://wordpress.org/latest.zip'
+    remote_src: true
+    # src: 'wordpress-5.7.1.zip'
+    dest: '/opt'
+    owner: '{{ wordpress_user }}'
+    group: '{{ wordpress_group }}'
+  become: true
+
+- name: 'Create wordpress DB'
+  mysql_db:
+    name: '{{ wordpress_mysql_db_name }}'
+    state: 'present'
+    login_user: '{{ wordpress_mysql_login_user }}'
+    login_password: '{{ wordpress_mysql_login_password}}'
+
+- name: 'Upload wp-config.php file'
+  template:
+    src: 'wp-config.php.j2'
+    dest: '/opt/wordpress/wp-config.php'
+    owner: '{{ wordpress_user }}'
+    group: '{{ wordpress_group }}'
+  become: true
+  notify: '{{ wordpress_nginx_handler_name }}'
